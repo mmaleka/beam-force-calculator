@@ -1,0 +1,46 @@
+.my-btn {
+  margin-bottom: 25px;
+}
+
+.btn-register {
+	background-color: #1CB94E;
+	outline: none;
+	color: #fff;
+	font-size: 14px;
+	height: auto;
+	font-weight: normal;
+	padding: 14px 0;
+	text-transform: uppercase;
+	border-color: #1CB94A;
+}
+.btn-register:hover,
+.btn-register:focus {
+	color: #fff;
+	background-color: #1CA347;
+	border-color: #1CA347;
+}
+
+.banner10 {
+  background-image: url('../img/engineering.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 80vh;
+  width: 100%;
+}
+
+.banner10 h1 {
+  color: #fff;
+  font-size: 50px;
+  font-family: Roboto;
+  margin-top: 70px;
+}
+
+.container {
+  padding-top: 50px;
+}
+
+.comment-box {
+  padding: 10px;
+  box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
+}

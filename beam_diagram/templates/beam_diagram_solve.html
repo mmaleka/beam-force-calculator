@@ -1,0 +1,122 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Enginer-Man | Solve Shear Force & Bending Moment Diagram
+{% endblock %}
+
+
+{% block content %}
+
+
+
+
+<div class="container">
+  <!-- <div class="row justify-content-around">
+    <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+
+    </div>
+  </div> -->
+
+  <div class="row justify-content-end">
+    <div class="col-12 col-sm-12 col-md-2 col-lg-2">
+        <!-- Button to Open the Beam Length -->
+        <a href="{% url "new_beam:beam_diagram" beam_id=beam_id %}" class="btn btn-success my-btn" role="button">
+          Back to beam setup
+        </a>
+    </div>
+    <!-- end of button  -->
+  </div>
+
+  <div class="row justify-content-around">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="alert alert-secondary" role="alert">
+        <h4 class="alert-heading">{{ beamData }}</h4>
+        <hr>
+        <p class="mb-0">User: {{ beamData.user }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-around">
+    <div class="col-12 col-sm-12 col-md-6 col-lg-6 mb-5">
+      <p class="text-uppercase font-weight-bold">Shear force diagram</p>
+      <input type="hidden" name="x_list" value="{{ x_list }}">
+      <input type="hidden" name="V_shearQ" value="{{ V_shearQ }}">
+      <input type="hidden" name="M_momentM" value="{{ M_momentM }}">
+
+      <canvas id="shear_force_Chart" width="800" height="450"></canvas>
+
+    </div>
+  </div>
+
+  <div class="row justify-content-around">
+    <div class="col-12 col-sm-12 col-md-6 col-lg-6 mb-5">
+      <p class="text-uppercase font-weight-bold">Bending moment diagram</p>
+
+      <canvas id="bending_moment_Chart" width="800" height="450"></canvas>
+
+    </div>
+  </div>
+
+
+  <div class="row justify-content-around">
+    <div class="col-12 col-sm-12 col-md-8 col-lg-8 mb-5">
+      <hr class="detail_hrLine">
+
+      <h3>Comments and responses</h3>
+
+      <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+        {% if request.user.is_authenticated %}
+
+        <form method="POST" action="" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">
+            {{ comment_form|crispy }}
+          </div>
+          <div class="row justify-content-start">
+            <div class="col-sm-12 col-md-4 col-lg-4 text-center">
+              <button type="submit" class="btn btn-success btn-block green"><i class="fa fa-share"></i> Share</button>
+            </div>
+          </div>
+        </form>
+
+        {% else %}
+
+        <div class="alert alert-warning" role="alert">
+          You must log in to comment or ask question
+        </div>
+
+        {% endif %}
+      </div>
+
+      {% for comment in comments_list %}
+      <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+        <div class="card comment-box">
+            <div class="card-header">
+              {{ comment.user }}
+              <h6 class="text-muted time">1 minute ago</h6>
+            </div>
+            <div class="card-body">
+              <p class="card-text"> {{ comment.content }} </p>
+              {% if comment.image %}
+                <img src="{{ comment.image.url }}" class="img-responsive" width="200">
+              {% endif %}
+            </div>
+        </div>
+      </div>
+      {% endfor %}
+
+
+
+    </div>
+  </div>
+
+
+</div>
+
+
+
+{% endblock %}

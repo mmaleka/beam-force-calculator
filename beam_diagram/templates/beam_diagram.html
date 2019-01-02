@@ -1,0 +1,325 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Enginer-Man | Solve Shear Force & Bending Moment Diagram
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+  <div class="row justify-content-around">
+    <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+      <!-- <h3>Draw Shear Force and Bending Moment Diagrams</h3> -->
+    </div>
+  </div>
+
+  <div class="row justify-content-around">
+    <div class="col-12 col-sm-12 col-md-2 col-lg-2">
+        <!-- Button to Open the Beam Length -->
+       <button type="button" class="btn btn-info btn-block my-btn" data-toggle="modal" data-target="#beam_lengthModal">
+         New Beam*
+       </button>
+       <!-- The Beam Length Modal -->
+       <div class="modal fade" id="beam_lengthModal">
+         <div class="modal-dialog">
+           <div class="modal-content">
+             <!-- Modal Header -->
+             <div class="modal-header">
+               <h4 class="modal-title">Add The Beam Length</h4>
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+             </div>
+             <form method="POST" action="{% url 'new_beam:beam_diagram' beam_id=beam_id %}" enctype="multipart/form-data">
+             <!-- Modal body -->
+             <div class="modal-body">
+               <p>Add all fields without units</p>
+                   {% csrf_token %}
+                   <p>
+                       {{ beam_lengthform|crispy }}
+                   </p>
+             </div>
+             <!-- Modal footer -->
+             <div class="modal-footer">
+               <div class="row justify-content-center">
+                 <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
+                   <input class="btn btn-info btn-block" type="submit" value="Add" />
+                 </div>
+                 <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
+                   <input class="btn btn-danger btn-block" data-dismiss="modal" value="Cancel" />
+                 </div>
+               </div>
+             </div>
+             </form>
+           </div>
+         </div>
+        </div>
+    </div>
+    <!-- end of button  -->
+
+    <div class="col-6 col-sm-12 col-md-2 col-lg-2">
+        <!-- Button to Open the Beam Length -->
+        <button type="button" class="btn btn-info btn-block my-btn" data-toggle="modal" data-target="#beam_supportModal">
+         Beam Support
+       </button>
+       <!-- The Beam Length Modal -->
+       <div class="modal fade" id="beam_supportModal">
+         <div class="modal-dialog">
+           <div class="modal-content">
+             <!-- Modal Header -->
+             <div class="modal-header">
+               <h4 class="modal-title">Add The Beam Length</h4>
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+             </div>
+             <form method="POST" action="{% url 'new_beam:beam_diagram' beam_id=beam_id %}" enctype="multipart/form-data">
+             <!-- Modal body -->
+             <div class="modal-body">
+               <p>Add all fields without units</p>
+                   {% csrf_token %}
+                   <p>
+                       {{ beam_supportform|crispy }}
+                   </p>
+             </div>
+             <!-- Modal footer -->
+             <div class="modal-footer">
+               <div class="row justify-content-center">
+                 <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
+                   <input class="btn btn-info btn-block" type="submit" value="Add" />
+                 </div>
+                 <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
+                   <input class="btn btn-danger btn-block" data-dismiss="modal" value="Cancel" />
+                 </div>
+               </div>
+             </div>
+             </form>
+           </div>
+         </div>
+        </div>
+    </div>
+    <!-- end of button  -->
+
+    <div class="col-6 col-sm-12 col-md-2 col-lg-2">
+        <!-- Button to Open the Beam Length -->
+        <button type="button" class="btn btn-info btn-block my-btn" data-toggle="modal" data-target="#beam_pointLoadModal">
+         Point Load
+        </button>
+       <!-- The Beam Length Modal -->
+       <div class="modal fade" id="beam_pointLoadModal">
+         <div class="modal-dialog">
+           <div class="modal-content">
+             <!-- Modal Header -->
+             <div class="modal-header">
+               <h4 class="modal-title">Add The Beam Length</h4>
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+             </div>
+             <form method="POST" action="{% url 'new_beam:beam_diagram' beam_id=beam_id %}" enctype="multipart/form-data">
+             <!-- Modal body -->
+             <div class="modal-body">
+               <p>Add all fields without units</p>
+                   {% csrf_token %}
+                   <p>
+                       {{ beam_pointLoadform|crispy }}
+                   </p>
+             </div>
+             <!-- Modal footer -->
+             <div class="modal-footer">
+               <div class="row justify-content-center">
+                 <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
+                   <input class="btn btn-info btn-block" type="submit" value="Add" />
+                 </div>
+                 <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
+                   <input class="btn btn-danger btn-block" data-dismiss="modal" value="Cancel" />
+                 </div>
+               </div>
+             </div>
+             </form>
+           </div>
+         </div>
+        </div>
+    </div>
+    <!-- end of button  -->
+
+    <div class="col-6 col-sm-12 col-md-2 col-lg-2">
+        <!-- Button to Open the Beam Length -->
+        <button type="button" class="btn btn-info btn-block my-btn" data-toggle="modal" data-target="#beam_momentLoadModal">
+          Moment Load
+        </button>
+       <!-- The Beam Length Modal -->
+       <div class="modal fade" id="beam_momentLoadModal">
+         <div class="modal-dialog">
+           <div class="modal-content">
+             <!-- Modal Header -->
+             <div class="modal-header">
+               <h4 class="modal-title">Add The Beam Length</h4>
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+             </div>
+             <form method="POST" action="{% url 'new_beam:beam_diagram' beam_id=beam_id %}" enctype="multipart/form-data">
+             <!-- Modal body -->
+             <div class="modal-body">
+               <p>Add all fields without units</p>
+                   {% csrf_token %}
+                   <p>
+                       {{ beam_momentLoadform|crispy }}
+                   </p>
+             </div>
+             <!-- Modal footer -->
+             <div class="modal-footer">
+               <div class="row justify-content-center">
+                 <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
+                   <input class="btn btn-info btn-block" type="submit" value="Add" />
+                 </div>
+                 <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
+                   <input class="btn btn-danger btn-block" data-dismiss="modal" value="Cancel" />
+                 </div>
+               </div>
+             </div>
+             </form>
+           </div>
+         </div>
+        </div>
+    </div>
+    <!-- end of button  -->
+
+    <div class="col-6 col-sm-12 col-md-2 col-lg-2">
+        <!-- Button to Open the Beam Length -->
+        <button type="button" class="btn btn-info btn-block my-btn" data-toggle="modal" data-target="#beam_distributedLoadModal">
+          Distributed Load
+        </button>
+       <!-- The Beam Length Modal -->
+       <div class="modal fade" id="beam_distributedLoadModal">
+         <div class="modal-dialog">
+           <div class="modal-content">
+             <!-- Modal Header -->
+             <div class="modal-header">
+               <h4 class="modal-title">Add The Beam Length</h4>
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+             </div>
+             <form method="POST" action="{% url 'new_beam:beam_diagram' beam_id=beam_id %}" enctype="multipart/form-data">
+             <!-- Modal body -->
+             <div class="modal-body">
+               <p>Add all fields without units</p>
+                   {% csrf_token %}
+                   <p>
+                       {{ beam_distributedLoadform|crispy }}
+                   </p>
+             </div>
+             <!-- Modal footer -->
+             <div class="modal-footer">
+               <div class="row justify-content-center">
+                 <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
+                   <input class="btn btn-info btn-block" type="submit" value="Add" />
+                 </div>
+                 <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
+                   <input class="btn btn-danger btn-block" data-dismiss="modal" value="Cancel" />
+                 </div>
+               </div>
+             </div>
+             </form>
+           </div>
+         </div>
+        </div>
+    </div>
+    <!-- end of button  -->
+
+    <div class="col-12 col-sm-12 col-md-2 col-lg-2">
+        <!-- Button to Open the Beam Length -->
+        <a href="{% url "new_beam:beam_diagram_solve" beam_id=beam_id %}"  class="btn btn-success btn-block my-btn" role="button">
+          Solve
+        </a>
+    </div>
+    <!-- end of button  -->
+
+
+
+  </div>
+
+  <div class="row justify-content-around">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="alert alert-secondary" role="alert">
+        <h4 class="alert-heading">{{ beamData }}</h4>
+        <hr>
+        <p class="mb-0">User: {{ beamData.user }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-around">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 table-responsive mb-5">
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Point Location</th>
+            <th>Point Magnitude <br> (kN or kN-m)</th>
+            <th>Start Location <br> (m)</th>
+            <th>End Location <br> (m)</th>
+            <th>Start Magnitude <br> (kN/m)</th>
+            <th>End Magnitude <br> (kN/m)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>BEAM</td>
+            <td></td>
+            <td></td>
+            <td>0</td>
+            <td>{{ beamData.beam_length }}</td>
+            <td></td>
+            <td></td>
+          </tr>
+        {% for beamSupportData in beamSupportData %}
+          <tr>
+            <td>{{ beamSupportData.support }}</td>
+            <td>{{ beamSupportData.support_distance }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        {% endfor %}
+        {% for beamPointLoadData in beamPointLoadData %}
+          <tr>
+            <td>POINT LOAD</td>
+            <td>{{ beamPointLoadData.point_load_distance }}</td>
+            <td>{{ beamPointLoadData.point_load }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        {% endfor %}
+        {% for beamMomentLoadData in beamMomentLoadData %}
+          <tr>
+            <td>MOMENT LOAD</td>
+            <td>{{ beamMomentLoadData.moment_load_distance }}</td>
+            <td>{{ beamMomentLoadData.moment_load }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        {% endfor %}
+        {% for beamdistributedLoadData in beamdistributedLoadData %}
+          <tr>
+            <td>DISTRBUTED LOAD</td>
+            <td></td>
+            <td></td>
+            <td>{{ beamdistributedLoadData.start_distributed_load_location }}</td>
+            <td>{{ beamdistributedLoadData.end_distributed_load_location }}</td>
+            <td>{{ beamdistributedLoadData.start_distributed_load }}</td>
+            <td>{{ beamdistributedLoadData.end_distributed_load }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+</div>
+
+{% endblock %}
