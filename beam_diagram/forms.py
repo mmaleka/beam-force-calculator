@@ -45,10 +45,13 @@ class beam_distributedLoadForm(forms.ModelForm):
         fields = ['beamLength', 'start_distributed_load', 'end_distributed_load', 'start_distributed_load_location', 'end_distributed_load_location']
 
 
-    def clean_distributed_load(self):
+    def clean_start_distributed_load(self):
+        print("self.clea", self.cleaned_data)
         q1 = self.cleaned_data.get('start_distributed_load')
         q2 = self.cleaned_data.get('end_distributed_load')
 
+        if q2 != q1:
+            print("testing")
+            # raise forms.ValidationError('Emails must match')
 
-        if q1 != q2:
-            raise forms.ValidationError("Distributed loads not equal is not support yet!")
+        return q1
