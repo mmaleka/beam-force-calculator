@@ -17,7 +17,8 @@ def new_beam(request):
             beam_length = beam_lengthform.cleaned_data['beam_length']
             beam = beam_lengthform.save(commit=False)
             beam.beam_length = beam_length
-            beam.user = request.user
+            if request.user.is_authenticated:
+                beam.user = request.user
             beam = beam_lengthform.save()
             beamData = Beamlength.objects.all().order_by('-id')
             beamData = beamData[0]
