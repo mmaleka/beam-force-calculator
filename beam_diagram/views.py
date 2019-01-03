@@ -6,6 +6,10 @@ from comments.models import Comment
 from comments.forms import CommentForm
 from django.contrib.contenttypes.models import ContentType
 
+from analytics.models import SolveBeamCount, SolutionBeamCount
+import socket
+
+
 # Create your views here.
 
 
@@ -25,6 +29,11 @@ def new_beam(request):
 
             return redirect('new_beam:beam_diagram', beam_id=beamData.id)
 
+        else:
+            return redirect('new_beam:new_beam')
+
+            # return redirect('new_beam:beam_diagram', beam_id=beamData.id)
+
     else:
         beam_lengthform = beam_lengthForm()
         context = {
@@ -40,6 +49,34 @@ def beam_diagram(request, beam_id):
     beamMomentLoadData = MomentLoad.objects.filter(beamLength = beam_id).order_by('moment_load_distance')
     beamdistributedLoadData = DistributedLoad.objects.filter(beamLength = beam_id).order_by('start_distributed_load_location')
 
+
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        print("IP dress: ", s.getsockname()[0])
+        IP = s.getsockname()[0]
+        s.close()
+
+        if request.user.is_authenticated:
+            user = request.user.username
+        else:
+            user = 'Visitor'
+
+
+        view, created = SolveBeamCount.objects.get_or_create(
+            ip_address = str(IP),
+            user = user
+        )
+        if view:
+            view.views_count += 1
+            view.save()
+
+    except Exception as e:
+        print("Error getting IP adress", e)
+
+
+    # print("fvfv")
+
     if request.method == 'POST':
         beam_lengthform = beam_lengthForm(request.POST)
         beam_supportform = beam_supportForm(request.POST)
@@ -48,6 +85,8 @@ def beam_diagram(request, beam_id):
         beam_distributedLoadform = beam_distributedLoadForm(request.POST)
 
         beam_lengthform = beam_lengthForm(request.POST)
+        next = request.GET.get('next')
+        print("beam_lengthform: ", beam_lengthform)
         if beam_lengthform.is_valid():
             beam_length = beam_lengthform.cleaned_data['beam_length']
             beam = beam_lengthform.save(commit=False)
@@ -56,13 +95,23 @@ def beam_diagram(request, beam_id):
             beamData = Beamlength.objects.all().order_by('-id')
             beamData = beamData[0]
 
+        # else:
+        #     return redirect('new_beam:beam_diagram', beam_id=beam_id)
+
             return redirect('new_beam:beam_diagram', beam_id=beamData.id)
+
+        else:
+            print("sfgsfvsfvfsv sdfvfsv")
+            beam_lengthform = beam_lengthForm(request.POST)
 
         if beam_lengthform.is_valid():
             beam_length = beam_lengthform.cleaned_data['beam_length']
             beam = beam_lengthform.save(commit=False)
             beam.beam_length = beam_length
             beam = beam_lengthform.save()
+
+        # else:
+            return redirect('new_beam:beam_diagram', beam_id=beam_id)
 
         if beam_supportform.is_valid():
             beam_support = beam_supportform.cleaned_data['support']
@@ -72,6 +121,9 @@ def beam_diagram(request, beam_id):
             beamSupport.support_distance = support_distance
             beamSupport.save()
 
+        # else:
+            return redirect('new_beam:beam_diagram', beam_id=beam_id)
+
         if beam_pointLoadform.is_valid():
             beam_pointLoad = beam_pointLoadform.cleaned_data['point_load']
             pointLoad_distance = beam_pointLoadform.cleaned_data['point_load_distance']
@@ -79,6 +131,9 @@ def beam_diagram(request, beam_id):
             beamPointLoad.point_load = beam_pointLoad
             beamPointLoad.point_load_distance = pointLoad_distance
             beamPointLoad.save()
+
+        # else:
+            return redirect('new_beam:beam_diagram', beam_id=beam_id)
 
         if beam_momentLoadform.is_valid():
             beam_momentLoad = beam_momentLoadform.cleaned_data['moment_load']
@@ -88,36 +143,45 @@ def beam_diagram(request, beam_id):
             beamMomentLoad.moment_load_distance = momentLoad_distance
             beamMomentLoad.save()
 
+        # else:
+            return redirect('new_beam:beam_diagram', beam_id=beam_id)
+
+
         if beam_distributedLoadform.is_valid():
+            # print("beam_distributedLoadfefesgfdfgorm: ", beam_distributedLoadform)
             beam_distributedLoadform.save()
 
-
-        return redirect('new_beam:beam_diagram', beam_id=beam_id)
-
-    else:
-        beam_lengthform = beam_lengthForm()
-        beam_supportform = beam_supportForm(initial={'beamLength': beam_id})
-        beam_pointLoadform = beam_pointLoadForm(initial={'beamLength': beam_id})
-        beam_momentLoadform = beam_momentLoadForm(initial={'beamLength': beam_id})
-        beam_distributedLoadform = beam_distributedLoadForm(initial={'beamLength': beam_id})
-
-        context = {
-            'beam_lengthform': beam_lengthform,
-            'beam_supportform': beam_supportform,
-            'beam_pointLoadform': beam_pointLoadform,
-            'beam_momentLoadform': beam_momentLoadform,
-            'beam_distributedLoadform': beam_distributedLoadform,
+        # else:
+            return redirect('new_beam:beam_diagram', beam_id=beam_id)
+        # else:
+        #     return redirect('new_beam:beam_diagram', beam_id=beam_id)
 
 
-            'beamData': beamData,
-            'beamSupportData': beamSupportData,
-            'beamPointLoadData': beamPointLoadData,
-            'beamMomentLoadData': beamMomentLoadData,
-            'beamdistributedLoadData': beamdistributedLoadData,
-            'beam_id': beam_id,
-        }
 
-        return render(request, 'beam_diagram.html', context)
+
+    beam_lengthform = beam_lengthForm()
+    beam_supportform = beam_supportForm(initial={'beamLength': beam_id})
+    beam_pointLoadform = beam_pointLoadForm(initial={'beamLength': beam_id})
+    beam_momentLoadform = beam_momentLoadForm(initial={'beamLength': beam_id})
+    beam_distributedLoadform = beam_distributedLoadForm(initial={'beamLength': beam_id})
+
+    context = {
+        'beam_lengthform': beam_lengthform,
+        'beam_supportform': beam_supportform,
+        'beam_pointLoadform': beam_pointLoadform,
+        'beam_momentLoadform': beam_momentLoadform,
+        'beam_distributedLoadform': beam_distributedLoadform,
+
+
+        'beamData': beamData,
+        'beamSupportData': beamSupportData,
+        'beamPointLoadData': beamPointLoadData,
+        'beamMomentLoadData': beamMomentLoadData,
+        'beamdistributedLoadData': beamdistributedLoadData,
+        'beam_id': beam_id,
+    }
+
+    return render(request, 'beam_diagram.html', context)
 
 
 def allUnique(data):
@@ -131,6 +195,30 @@ def beam_diagram_solve(request, beam_id):
     beamPointLoadData = PointLoad.objects.filter(beamLength = beam_id).order_by('point_load_distance')
     beamMomentLoadData = MomentLoad.objects.filter(beamLength = beam_id).order_by('moment_load_distance')
     beamdistributedLoadData = DistributedLoad.objects.filter(beamLength = beam_id).order_by('start_distributed_load_location')
+
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        print("IP dress: ", s.getsockname()[0])
+        IP = s.getsockname()[0]
+        s.close()
+
+        if request.user.is_authenticated:
+            user = request.user.username
+        else:
+            user = 'Visitor'
+
+
+        view, created = SolutionBeamCount.objects.get_or_create(
+            ip_address = str(IP),
+            user = user
+        )
+        if view:
+            view.views_count += 1
+            view.save()
+
+    except Exception as e:
+        print("Error getting IP adress", e)
 
 
     # Determine distributed load type

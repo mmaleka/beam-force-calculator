@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'comments.apps.CommentsConfig',
     'beam_diagram.apps.BeamDiagramConfig',
     'accounts.apps.AccountsConfig',
+    'analytics.apps.AnalyticsConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',

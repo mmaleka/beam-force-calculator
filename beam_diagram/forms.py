@@ -7,6 +7,15 @@ class beam_lengthForm(forms.ModelForm):
         model = Beamlength
         fields = ['beam_length']
 
+    def clean_beam_length(self):
+        beam_length = self.cleaned_data.get('beam_length')
+
+        if beam_length <= 0:
+            print("beam_length: ", beam_length)
+            raise forms.ValidationError("Enter a valid beam length")
+
+        return beam_length
+
 
 class beam_supportForm(forms.ModelForm):
     class Meta:
@@ -50,8 +59,12 @@ class beam_distributedLoadForm(forms.ModelForm):
         q1 = self.cleaned_data.get('start_distributed_load')
         q2 = self.cleaned_data.get('end_distributed_load')
 
-        if q2 != q1:
+        print(q1, q2)
+        #
+        if q1:
             print("testing")
+            # raise forms.ValidationError("You have forgotten about Fred!")
+        #     print("Validaton")
             # raise forms.ValidationError('Emails must match')
 
         return q1

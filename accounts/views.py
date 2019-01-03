@@ -11,6 +11,9 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from .forms import UserLoginForm, UserRegisterForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from analytics.models import RegisterCount
+import socket
+
 # Create your views here.
 
 
@@ -43,7 +46,31 @@ def login_view(request):
 
 
 def register_view(request):
+
+
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        print("IP dress: ", s.getsockname()[0])
+        IP = s.getsockname()[0]
+        s.close()
+
+
+        view, created = RegisterCount.objects.get_or_create(
+            ip_address = str(IP),
+        )
+        if view:
+            view.views_count += 1
+            view.save()
+
+    except Exception as e:
+        print("Error getting IP adress", e)
+
     form = UserRegisterForm(request.POST or None)
+
+
+
+
 
     if form.is_valid():
         user = form.save(commit=False)
