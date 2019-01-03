@@ -12,6 +12,7 @@ from .forms import UserLoginForm, UserRegisterForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from analytics.models import RegisterCount
+from beam_diagram.models import Beamlength
 import socket
 
 # Create your views here.
@@ -92,3 +93,26 @@ def register_view(request):
 def logout_view(request):
     logout(request)
     return redirect('new_beam:new_beam')
+
+
+@login_required
+def profile_view(request):
+
+    if request.user.is_authenticated:
+        user = request.user
+    else:
+        user = 5
+
+    print("user: ", user)
+    project_list = Beamlength.objects.filter(user=request.user)
+
+    paginator = Paginator(project_list, 20) # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    orders = paginator.get_page(page)
+
+    context = {
+        'project_list': project_list,
+    }
+
+    return render(request, "accounts/profile.html", context)

@@ -1,93 +1,69 @@
-{% extends 'shop/base.html' %}
+{% extends 'index.html' %}
+{% load crispy_forms_tags %}
 {% load staticfiles %}
-{% block title %}
-    My Account - {{ user }}
-{% endblock %}
+{% load static %}
+
+{% block head_title %} {{ block.super }} | {{ title }}{% endblock head_title %}
 
 
 {% block content %}
 
 <div class="container">
 
-  <div class="row">
+  <div class="row justify-content-around">
 
     <div class="col-sm-12 col-md-12 col-lg-12 text-center" style="padding: 20px">
-      <h4>Hello {{ request.user }}, here are your projects</h4>
+      {% if request.user.is_authenticated %}
+        <h4>Hello {{ request.user }}, here are your projects</h4>
+      {% else %}
+        <h4>Hello Visitor, you are seeing all projects created by users not registered. Please register to see you on projects</h4>
+      {% endif %}
     </div>
 
-    <div class="col-sm-12 col-md-12 col-lg-12">
+    <div class="col-12 col-sm-12 col-md-8 col-lg-8">
 
-      {% for order in orders %}
+      {% for project_list in project_list %}
+        <h1>Hello projects</h1>
+
         <div class="card">
-          <div class="card-header myCard2">
+          <div class="card-header">
+
             <div class="row">
-              <div class="col-sm-12 col-md-4 col-lg-4 text-left">
-                <p class="font-weight-bold">Order #{{ order.id }}</p>
+              <div class="col-sm-12 col-md-6 col-lg-6 text-left">
+                <p class="font-weight-bold">Project - {{ project_list.id }}</p>
               </div>
-              <div class="col-sm-12 col-md-4 col-lg-4">
-                Ordered {{ order.created }}
+              <div class="col-sm-12 col-md-6 col-lg-6">
+                Created @ {{ project_list.created_at }}
               </div>
-              <div class="col-sm-12 col-md-4 col-lg-4">
-                <p class="font-weight-bold">Status {{order.status}}</p>
-              </div>
-
             </div>
+
           </div>
-          <ul class="list-group list-group-flush">
-
-            {% for orderItem in orderItems %}
-              {% if order.id == orderItem.order.id %}
-                <li class="list-group-item">
-                  <div class="row justify-content-between">
-                    <div class="col-sm-12 col-md-3 col-lg-3 productImage">
-                      <a href="{{ orderItem.product.get_absolute_url }}">
-                        {% for productImage in productImages %}
-                          {% if productImage.product.id  == orderItem.product.id %}
-                          <img id="{{ productsImage.id }}"
-                          class="img-fluid"
-                          src="{% if productImage.image %} {{ productImage.image.url }} {% else %} {% static 'http://placehold.it/700x400' %} {% endif %}"
-                          alt="...">
-                          {% endif %}
-                        {% endfor %}
-                      </a>
-                    </div>
-                    <div class="col-sm-12 col-md-3 col-lg-3">
-                      <a href="{{ orderItem.product.get_absolute_url }}">
-                        <p class="font-weight-bold">{{ orderItem.product.name }}</p>
-                      </a>
-                      <p class="text-muted">Qty: {{ orderItem.quantity }}</p>
-                      <p class="font-weight-bold">R {{ orderItem.price }}</p>
-                    </div>
-                  </div>
-                </li>
-              {% endif %}
-            {% endfor %}
-
-
-
-
-          </ul>
+          <div class="card-body">
+            <h5 class="card-title">Beam Length: {{ project_list.beam_length }}</h5>
+            <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+            <a href="{{ project_list.get_absolute_url }}" class="btn btn-primary">Open Project</a>
+          </div>
         </div>
-        <br>
+
       {% endfor %}
 
-      <div class="pagination">
+      <!-- <div class="pagination">
           <span class="step-links">
-              {% if orders.has_previous %}
+              {% if project_list.has_previous %}
                   <a href="?page=1">&laquo; first</a>
                   <a href="?page={{ orders.previous_page_number }}">previous</a>
               {% endif %}
 
               <span class="current">
-                  Page {{ orders.number }} of {{ orders.paginator.num_pages }}.
+                  Page {{ project_list.number }} of {{ orders.paginator.num_pages }}.
               </span>
 
-              {% if orders.has_next %}
+              {% if project_list.has_next %}
                   <a href="?page={{ orders.next_page_number }}">next</a>
                   <a href="?page={{ orders.paginator.num_pages }}">last &raquo;</a>
               {% endif %}
           </span>
-      </div>
+      </div> -->
 
     </div>
 

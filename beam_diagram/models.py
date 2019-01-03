@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 
@@ -18,6 +19,9 @@ class Beamlength(models.Model): # BeamLength
 
     def __str__(self):
         return 'Project: {}'.format(self.id)
+
+    def get_absolute_url(self):
+        return reverse('new_beam:beam_diagram', args=[self.id])
 
     @property
     def get_content_type(self):
