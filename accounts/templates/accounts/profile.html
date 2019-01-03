@@ -20,12 +20,11 @@
       {% endif %}
     </div>
 
-    <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+    <div class="col-12 col-sm-12 col-md-8 col-lg-8 mb-5">
 
       {% for project_list in project_list %}
-        <h1>Hello projects</h1>
 
-        <div class="card">
+        <div class="card mb-3">
           <div class="card-header">
 
             <div class="row">
@@ -44,6 +43,7 @@
             <a href="{{ project_list.get_absolute_url }}" class="btn btn-primary">Open Project</a>
           </div>
         </div>
+        <!-- <br> -->
 
       {% endfor %}
 
