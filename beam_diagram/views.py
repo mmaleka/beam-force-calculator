@@ -760,6 +760,7 @@ def beam_diagram_solve(request, beam_id):
         'beamPointLoadData': beamPointLoadData,
         'beamMomentLoadData': beamMomentLoadData,
         'beamdistributedLoadData': beamdistributedLoadData,
+
         'beam_id': beam_id,
         'x_list': x_list,
         'V_shearQ': V_shearQ,

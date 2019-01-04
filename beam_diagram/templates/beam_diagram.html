@@ -20,7 +20,7 @@
   <div class="row justify-content-around">
     <div class="col-12 col-sm-12 col-md-2 col-lg-2">
         <!-- Button to Open the Beam Length -->
-       <button type="button" class="btn btn-info btn-block my-btn" data-toggle="modal" data-target="#beam_lengthModal">
+       <button type="button" onclick="drawBeam()" class="btn btn-info btn-block my-btn" data-toggle="modal" data-target="#beam_lengthModal">
          New Beam*
        </button>
        <!-- The Beam Length Modal -->
@@ -61,7 +61,7 @@
 
     <div class="col-6 col-sm-12 col-md-2 col-lg-2">
         <!-- Button to Open the Beam Length -->
-        <button type="button" class="btn btn-info btn-block my-btn" data-toggle="modal" data-target="#beam_supportModal">
+        <button type="button" onclick="drawBeam()" class="btn btn-info btn-block my-btn" data-toggle="modal" data-target="#beam_supportModal">
          Beam Support
        </button>
        <!-- The Beam Length Modal -->
@@ -102,7 +102,7 @@
 
     <div class="col-6 col-sm-12 col-md-2 col-lg-2">
         <!-- Button to Open the Beam Length -->
-        <button type="button" class="btn btn-info btn-block my-btn" data-toggle="modal" data-target="#beam_pointLoadModal">
+        <button type="button" onclick="drawBeam()" class="btn btn-info btn-block my-btn" data-toggle="modal" data-target="#beam_pointLoadModal">
          Point Load
         </button>
        <!-- The Beam Length Modal -->
@@ -143,7 +143,7 @@
 
     <div class="col-6 col-sm-12 col-md-2 col-lg-2">
         <!-- Button to Open the Beam Length -->
-        <button type="button" class="btn btn-info btn-block my-btn" data-toggle="modal" data-target="#beam_momentLoadModal">
+        <button type="button" onclick="drawBeam()" class="btn btn-info btn-block my-btn" data-toggle="modal" data-target="#beam_momentLoadModal">
           Moment Load
         </button>
        <!-- The Beam Length Modal -->
@@ -184,7 +184,7 @@
 
     <div class="col-6 col-sm-12 col-md-2 col-lg-2">
         <!-- Button to Open the Beam Length -->
-        <button type="button" class="btn btn-info btn-block my-btn" data-toggle="modal" data-target="#beam_distributedLoadModal">
+        <button type="button" onclick="drawBeam()" class="btn btn-info btn-block my-btn" data-toggle="modal" data-target="#beam_distributedLoadModal">
           Distributed Load
         </button>
        <!-- The Beam Length Modal -->
@@ -233,6 +233,7 @@
 
 
 
+
   </div>
 
   <div class="row justify-content-around">
@@ -243,15 +244,25 @@
         {% if request.user.is_authenticated %}
         <p class="mb-0">User: {{ beamData.user }}</p>
         {% else %}
-        <p class="mb-0">User: Visitor</p> 
+        <p class="mb-0">User: Visitor</p>
         {% endif %}
       </div>
     </div>
   </div>
 
   <div class="row justify-content-around">
-    <div class="col-12 col-sm-12 col-md-12 col-lg-12 table-responsive mb-5">
+    <div class="col-12 col-sm-12 col-md-6 col-lg-6 mb-3">
+      <canvas id="paper" width="500" height="300">
+        Please use chrome
+      </canvas>
 
+    </div>
+  </div>
+
+
+
+  <div class="row justify-content-around">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 table-responsive mb-5">
       <table class="table table-striped">
         <thead>
           <tr>
@@ -273,7 +284,8 @@
             <td>{{ beamData.beam_length }}</td>
             <td></td>
             <td></td>
-          </tr>
+            <input type="hidden" name="draw_beam_length" value="{{ beamData.beam_length }}">
+          </tr>   
         {% for beamSupportData in beamSupportData %}
           <tr>
             <td>{{ beamSupportData.support }}</td>
@@ -283,6 +295,8 @@
             <td></td>
             <td></td>
             <td></td>
+            <input type="hidden" name="draw_beam_support" value="{{ beamSupportData.support }}">
+            <input type="hidden" name="draw_beam_support_distance" value="{{ beamSupportData.support_distance }}">
           </tr>
         {% endfor %}
         {% for beamPointLoadData in beamPointLoadData %}
@@ -294,6 +308,8 @@
             <td></td>
             <td></td>
             <td></td>
+            <input type="hidden" name="draw_beam_pointLoad" value="{{ beamPointLoadData.point_load }}">
+            <input type="hidden" name="draw_beam_pointLoad_distance" value="{{ beamPointLoadData.point_load_distance }}">
           </tr>
         {% endfor %}
         {% for beamMomentLoadData in beamMomentLoadData %}
@@ -305,6 +321,8 @@
             <td></td>
             <td></td>
             <td></td>
+            <input type="hidden" name="draw_beam_momentLoad" value="{{ beamMomentLoadData.moment_load }}">
+            <input type="hidden" name="draw_beam_momentLoad_distance" value="{{ beamMomentLoadData.moment_load_distance }}">
           </tr>
         {% endfor %}
         {% for beamdistributedLoadData in beamdistributedLoadData %}
@@ -316,12 +334,21 @@
             <td>{{ beamdistributedLoadData.end_distributed_load_location }}</td>
             <td>{{ beamdistributedLoadData.start_distributed_load }}</td>
             <td>{{ beamdistributedLoadData.end_distributed_load }}</td>
+
+            <input type="hidden" name="draw_beam_distributedLoad_distance_start" value="{{ beamdistributedLoadData.start_distributed_load_location }}">
+            <input type="hidden" name="draw_beam_distributedLoad_distance_end" value="{{ beamdistributedLoadData.end_distributed_load_location }}">
+
+            <input type="hidden" name="draw_beam_distributedLoad_start" value="{{ beamdistributedLoadData.start_distributed_load }}">
+            <input type="hidden" name="draw_beam_distributedLoad_end" value="{{ beamdistributedLoadData.end_distributed_load }}">
+
           </tr>
         {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
+
+
 
 
 </div>

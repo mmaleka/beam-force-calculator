@@ -12,7 +12,7 @@ from .forms import UserLoginForm, UserRegisterForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from analytics.models import RegisterCount
-from beam_diagram.models import Beamlength
+from beam_diagram.models import Beamlength, BeamSupport, PointLoad, MomentLoad, DistributedLoad
 import socket
 
 # Create your views here.

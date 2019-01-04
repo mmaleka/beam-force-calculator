@@ -44,3 +44,9 @@
   padding: 10px;
   box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
 }
+
+#paper {
+  /* background-color: blue; */
+  width: 100%;
+  height: auto;
+}

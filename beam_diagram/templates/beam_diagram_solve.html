@@ -42,12 +42,21 @@
 
   <div class="row justify-content-around">
     <div class="col-12 col-sm-12 col-md-6 col-lg-6 mb-5">
+      <canvas id="paper" width="500" height="300">
+        Please use chrome
+      </canvas>
+
+    </div>
+  </div>
+
+  <div class="row justify-content-around">
+    <div class="col-12 col-sm-12 col-md-6 col-lg-6 mb-3">
       <p class="text-uppercase font-weight-bold">Shear force diagram</p>
       <input type="hidden" name="x_list" value="{{ x_list }}">
       <input type="hidden" name="V_shearQ" value="{{ V_shearQ }}">
       <input type="hidden" name="M_momentM" value="{{ M_momentM }}">
 
-      <canvas id="shear_force_Chart" width="800" height="450"></canvas>
+      <canvas id="shear_force_Chart" width="500" height="300"></canvas>
 
     </div>
   </div>
@@ -56,8 +65,97 @@
     <div class="col-12 col-sm-12 col-md-6 col-lg-6 mb-5">
       <p class="text-uppercase font-weight-bold">Bending moment diagram</p>
 
-      <canvas id="bending_moment_Chart" width="800" height="450"></canvas>
+      <canvas id="bending_moment_Chart" width="500" height="300"></canvas>
 
+    </div>
+  </div>
+
+
+  <div class="row justify-content-around">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 table-responsive mb-5">
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Point Location</th>
+            <th>Point Magnitude <br> (kN or kN-m)</th>
+            <th>Start Location <br> (m)</th>
+            <th>End Location <br> (m)</th>
+            <th>Start Magnitude <br> (kN/m)</th>
+            <th>End Magnitude <br> (kN/m)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>BEAM</td>
+            <td></td>
+            <td></td>
+            <td>0</td>
+            <td>{{ beamData.beam_length }}</td>
+            <td></td>
+            <td></td>
+            <input type="hidden" name="draw_beam_length" value="{{ beamData.beam_length }}">
+          </tr>
+        {% for beamSupportData in beamSupportData %}
+          <tr>
+            <td>{{ beamSupportData.support }}</td>
+            <td>{{ beamSupportData.support_distance }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <input type="hidden" name="draw_beam_support" value="{{ beamSupportData.support }}">
+            <input type="hidden" name="draw_beam_support_distance" value="{{ beamSupportData.support_distance }}">
+          </tr>
+        {% endfor %}
+        {% for beamPointLoadData in beamPointLoadData %}
+          <tr>
+            <td>POINT LOAD</td>
+            <td>{{ beamPointLoadData.point_load_distance }}</td>
+            <td>{{ beamPointLoadData.point_load }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <input type="hidden" name="draw_beam_pointLoad" value="{{ beamPointLoadData.point_load }}">
+            <input type="hidden" name="draw_beam_pointLoad_distance" value="{{ beamPointLoadData.point_load_distance }}">
+          </tr>
+        {% endfor %}
+        {% for beamMomentLoadData in beamMomentLoadData %}
+          <tr>
+            <td>MOMENT LOAD</td>
+            <td>{{ beamMomentLoadData.moment_load_distance }}</td>
+            <td>{{ beamMomentLoadData.moment_load }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <input type="hidden" name="draw_beam_momentLoad" value="{{ beamMomentLoadData.moment_load }}">
+            <input type="hidden" name="draw_beam_momentLoad_distance" value="{{ beamMomentLoadData.moment_load_distance }}">
+          </tr>
+        {% endfor %}
+        {% for beamdistributedLoadData in beamdistributedLoadData %}
+          <tr>
+            <td>DISTRBUTED LOAD</td>
+            <td></td>
+            <td></td>
+            <td>{{ beamdistributedLoadData.start_distributed_load_location }}</td>
+            <td>{{ beamdistributedLoadData.end_distributed_load_location }}</td>
+            <td>{{ beamdistributedLoadData.start_distributed_load }}</td>
+            <td>{{ beamdistributedLoadData.end_distributed_load }}</td>
+
+            <input type="hidden" name="draw_beam_distributedLoad_distance_start" value="{{ beamdistributedLoadData.start_distributed_load_location }}">
+            <input type="hidden" name="draw_beam_distributedLoad_distance_end" value="{{ beamdistributedLoadData.end_distributed_load_location }}">
+
+            <input type="hidden" name="draw_beam_distributedLoad_start" value="{{ beamdistributedLoadData.start_distributed_load }}">
+            <input type="hidden" name="draw_beam_distributedLoad_end" value="{{ beamdistributedLoadData.end_distributed_load }}">
+
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 
