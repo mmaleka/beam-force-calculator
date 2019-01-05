@@ -170,8 +170,8 @@ function distributedLoad(ctx, beam_distributed_load_start, beam_distributed_load
     beam_distributed_load_distance_end = beam_distributed_load_distance_end
   }
 
-  console.log("beam_distributed_load_distance_start: ", beam_distributed_load_distance_start);
-  console.log("beam_distributed_load_distance_end: ", beam_distributed_load_distance_end);
+  console.log("beam_distributed_load_start: ", Math.abs(beam_distributed_load_start));
+  console.log("beam_distributed_load_end: ", Math.abs(beam_distributed_load_end));
 
   ctx.beginPath();
   ctx.lineWidth = 2;
@@ -181,10 +181,20 @@ function distributedLoad(ctx, beam_distributed_load_start, beam_distributed_load
   ctx.font = "15px Helvetica";
   ctx.fillText(beam_distributed_load_start, beam_distributed_load_distance_start, 95);
   ctx.fillText(beam_distributed_load_end, beam_distributed_load_distance_end, 95);
-
+  if (Math.abs(beam_distributed_load_start) < Math.abs(beam_distributed_load_end)) {
+    start_y = 100;
+    end_y = 70;
+  } else if (Math.abs(beam_distributed_load_start) > Math.abs(beam_distributed_load_end)) {
+    start_y = 70;
+    end_y = 100;
+  } else {
+    start_y = 100;
+    end_y = 100;
+  }
+  console.log("start_y, end_y: ", start_y, end_y);
   ctx.beginPath();
-  ctx.moveTo(beam_distributed_load_distance_start, 100); // start point
-  ctx.lineTo(beam_distributed_load_distance_end, 100); // end at thia point
+  ctx.moveTo(beam_distributed_load_distance_start, start_y); // start point
+  ctx.lineTo(beam_distributed_load_distance_end, end_y); // end at thia point
   ctx.lineTo(beam_distributed_load_distance_end, 150); // end at thia point
   ctx.lineTo(beam_distributed_load_distance_start, 150); // end at thia point
   ctx.closePath();
